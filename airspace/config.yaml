@@ -1,0 +1,60 @@
+name: "AI电竞智控"
+version: "6.9.35"
+slug: airspace
+description: 独立 8125 端口网页，使用 HA 长期 Token 对接；保留玻璃中控与账号数据。
+arch:
+  - amd64
+  - aarch64
+stage: experimental
+startup: application
+boot: auto
+init: true
+ingress: false
+webui: "http://[HOST]:[PORT:8125]"
+homeassistant_api: false
+host_network: false
+full_access: false
+apparmor: true
+privileged:
+  - NET_RAW
+map:
+  - type: homeassistant_config
+    read_only: true
+    path: /homeassistant
+ports:
+  8125/tcp: 8125
+  8100/tcp: null
+ports_description:
+  8125/tcp: Airspace 独立管理页面（可修改主机端口，并同步 public_url）。
+  8100/tcp: 房间网页／Windows 客户端入口；按实际连接 IP 匹配，默认不开放。
+backup: cold
+timeout: 30
+watchdog: "http://[HOST]:8125/healthz"
+options:
+  public_url: "http://homeassistant.local:8125"
+  additional_public_urls: []
+  trusted_proxies: []
+  ha_url: "http://homeassistant:8123"
+  ha_token: ""
+  shadow_mode: true
+  initial_admin_password: ""
+  issuer_key_sha256: ""
+  timezone: Asia/Shanghai
+  enable_clients: false
+  client_public_url: ""
+  local_computer_probe: false
+schema:
+  public_url: url
+  additional_public_urls:
+    - url
+  trusted_proxies:
+    - str
+  ha_url: url
+  ha_token: password
+  shadow_mode: bool
+  initial_admin_password: password
+  issuer_key_sha256: str
+  timezone: str
+  enable_clients: bool
+  client_public_url: str?
+  local_computer_probe: bool

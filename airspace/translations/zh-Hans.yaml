@@ -1,0 +1,34 @@
+configuration:
+  public_url:
+    name: Airspace 独立访问地址
+    description: 内网管理地址，如 http://10.80.2.203:8125。DDNSTO／节点小宝域名填写到额外管理地址，保存后重启 Airspace。
+  additional_public_urls:
+    name: 额外管理地址（DDNSTO／节点小宝）
+    description: 填写浏览器实际访问的完整 HTTPS 地址，不含子路径。可添加多个，保留原内网管理地址；映射目标是8125，不是8100。留空不开放额外地址。
+  trusted_proxies:
+    name: 可信代理 IP（通常留空）
+    description: 仅当代理改写 Host 时填写 Airspace 实际收到连接的代理内网IP。只接受单个IP，不接受网段或通配符；代理须覆盖转发头，不得直接透传来访者伪造的头。
+  ha_url:
+    name: Home Assistant 地址
+    description: 如 http://10.80.2.203:8123。使用标准 HA API，不使用侧栏内部连接。
+  ha_token:
+    name: HA 长期访问令牌
+    description: 在 HA 用户资料中创建 Airspace 专用 Token。仅保存于服务端加载项私有配置，不下发给客户端。
+  shadow_mode:
+    name: 只读影子模式
+    description: 默认开启。可查看实体和配置，但不下发设备指令、不执行自动化。停用原 Windows 控制服务后才可关闭。
+  initial_admin_password:
+    name: 首次管理员密码
+    description: 首次启动必填，6–128位。账号 admin。已有账号不会被此项重置；创建成功后可清空此项。
+  issuer_key_sha256:
+    name: 可信签发公钥指纹
+    description: 公钥 DER 格式的 SHA-256（64位十六进制），用于验证首次导入的授权文件。不是 HA Token，也不是私钥。
+  timezone:
+    name: 门店时区
+    description: 请与 HA 设置一致，例如 Asia/Shanghai。影响时控、维护和备份计划。
+  enable_clients:
+    name: 允许内网客户端接入
+    description: 仅控制包间网页／Windows客户端的8100端口，不限制8125管理台的远程访问。8100按客户机真实IP匹配，仅在可信局域网映射，不要通过DDNSTO／节点小宝对外开放。
+  local_computer_probe:
+    name: 启用本地电脑 IP 探测
+    description: 默认关闭。开启后用 ICMP 探测软件创建的电脑；探测未知不作为离线。优先复用 HA 的电脑实体。
