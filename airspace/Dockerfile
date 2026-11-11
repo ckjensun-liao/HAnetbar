@@ -6,7 +6,7 @@ RUN set -eux; \
     command -v ping; ping -n -c 1 -W 1 127.0.0.1; \
     rm -rf /var/lib/apt/lists/*
 WORKDIR /opt/airspace
-RUN node --input-type=module -e 'import {createHash} from "node:crypto"; import {writeFile} from "node:fs/promises"; const response=await fetch("https://github.com/ckjensun-liao/HAnetbar/releases/download/v6.9.36/HA-O-Airspace-6.9.36.zip"); if(!response.ok) throw Error("Release download failed: "+response.status); const bytes=Buffer.from(await response.arrayBuffer()); if(createHash("sha256").update(bytes).digest("hex")!=="c5786ace6e4ae22dd270eeaa8b903931d7a96b5743f1756ed5581bc00331ee70") throw Error("Release SHA256 mismatch"); await writeFile("/tmp/airspace-release.zip",bytes);' \
+RUN node --input-type=module -e 'import {createHash} from "node:crypto"; import {writeFile} from "node:fs/promises"; const response=await fetch("https://github.com/ckjensun-liao/HAnetbar/releases/download/v6.9.38/HA-O-Airspace-6.9.38.zip"); if(!response.ok) throw Error("Release download failed: "+response.status); const bytes=Buffer.from(await response.arrayBuffer()); if(createHash("sha256").update(bytes).digest("hex")!=="11fd2f780e1e230ee2b2c9764c3866e31808e2de413ff902eaea5929c53f0424") throw Error("Release SHA256 mismatch"); await writeFile("/tmp/airspace-release.zip",bytes);' \
     && unzip -q /tmp/airspace-release.zip -d /tmp/airspace-release \
     && cp -a /tmp/airspace-release/airspace/runtime /tmp/airspace-release/airspace/app /opt/airspace/ \
     && rm -rf /tmp/airspace-release /tmp/airspace-release.zip
