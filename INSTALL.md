@@ -2,7 +2,7 @@
 
 1. 在 Home Assistant 中创建完整备份，保存加载项配置。
 2. 打开“设置 → 加载项 → 加载项商店 → 仓库”，添加 https://github.com/ckjensun-liao/HAnetbar 。保留 URL 拼写与 airspace slug，现有仓库加载项标识继续为 b01fe0ae_airspace。
-3. 等 GitHub 仓库提供 6.9.38 后，刷新加载项商店并安装或更新。构建时会下载固定版本 ZIP 并核验确切 SHA256。下载或哈希校验失败会停止构建。
+3. 等 GitHub 仓库提供 6.9.50 后，刷新加载项商店并安装或更新。构建时会下载固定版本 ZIP 并核验确切 SHA256。下载或哈希校验失败会停止构建。
 4. 保留现有 /data，不卸载加载项、不删除账号、授权、备份或数据库。配置 ha_url / ha_token，首次安装设置 initial_admin_password。
 5. 启动后打开主机 8125 端口，检查版本、账号登录、HA 连接、任务及备份。
 
@@ -16,8 +16,12 @@
 1. 管理员在门磁报警页打开「报警声音设置」，找到「值班电脑报警声音」，选择「标准警报」使用内置连续升降调警笛，或上传 16 位 PCM WAV。设置音量并点击「保存本机报警声音」。HA 警号可以同时使用。
 2. 在实际值班电脑的管理台点击「启用本机报警」，试听确认音量并保持网页打开。重新登录后再次启用。出现多条报警时，管理员逐条点击「停止并确认」，最后一条确认后停止循环。
 
-## 离线安装
+## 本地安装
 
-取得 HA-O-Airspace-6.9.38.zip 后，按 SHA256 校验并解压，用解压出的 airspace 整体替换 /addons/airspace 下的旧安装文件，保留已安装加载项的数据和配置。刷新应用商店，新安装选「安装」，旧版本选「更新」，同版本选「重建」。ZIP 内 Dockerfile 直接 COPY 本地 runtime 与 app；不需要下载自身。ZIP 不是 HA 备份。
+1. 在 Home Assistant 中创建完整备份，保存本地加载项配置。
+2. 核对 HA-O-Airspace-6.9.50.zip 的 SHA-256 并解压。先将旧的 airspace 安装目录备份到共享外，再把包内完整的 airspace 目录放入 Samba 的 local_apps 共享（旧版叫 addons）。终端中的目录为 /local_apps/airspace，旧版为 /addons/airspace。已有本地加载项的标识为 local_airspace。
+3. 刷新应用商店，首次安装选「安装」，已安装旧版本选「更新」，同版本选「重建」。构建过程需访问 public.ecr.aws 和 deb.debian.org。
+4. 保留已安装加载项的 /data 和原配置。首次安装时配置 ha_url、ha_token 与 initial_admin_password。
+5. 启动后打开主机的 8125 端口，检查版本、管理员登录和 HA 连接。
 
-GitHub 自动的 Source code 压缩档只有安装 metadata；完整运行内容仅在上述 Release ZIP 中。Node 与 CPU 架构必须匹配，支持 amd64 和 aarch64。不要用其他 Node 版本重写 runtime。
+后端使用固定 Node 24.21.0 的 V8 字节码，支持 amd64 和 aarch64。

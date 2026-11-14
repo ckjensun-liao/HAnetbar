@@ -1,5 +1,5 @@
 name: "AI电竞智控"
-version: "6.9.38"
+version: "6.9.50"
 slug: airspace
 description: 独立 8125 端口网页，使用 HA 长期 Token 对接；保留玻璃中控与账号数据。
 arch:
